@@ -273,7 +273,7 @@ body {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    
+    let allExpanded = false;
     let selectedFiles = [];
     const maxFiles = 5;
     const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 МБ
@@ -688,13 +688,29 @@ function filterSentences(type, btn) {
             item.style.display = 'none';
         }
     });
-    
+
+    // Логика сворачивания/раскрытия всех контейнеров
     if (type === 'all') {
+        if (!allExpanded) {
+            document.querySelectorAll('.sentences-container').forEach(container => {
+                container.classList.add('expanded');
+            });
+            allExpanded = true;
+        } else {
+            document.querySelectorAll('.sentences-container').forEach(container => {
+                container.classList.remove('expanded');
+            });
+            allExpanded = false;
+        }
+    } else {
+        // При других фильтрах всегда сворачиваем все
         document.querySelectorAll('.sentences-container').forEach(container => {
-            container.classList.add('expanded');
+            container.classList.remove('expanded');
         });
+        allExpanded = false;
     }
 }
+
 
 
 

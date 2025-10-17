@@ -541,7 +541,7 @@ if (docUnique.length > 0) {
                 html += '<h5 style="color: #ff9800; margin-top: 20px;">🔄 Общие предложения (показаны первые 20):</h5>';
                 
                 if (docCommon.length > 0) {
-                    docCommon.slice(0, 20).forEach(sent => {
+                    docCommon.forEach(sent => {
                         const files = Array.from(sentenceToFiles.get(sent));
                         const otherFiles = files.filter(f => f !== doc.name).join(', ');
                         html += `

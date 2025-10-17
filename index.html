@@ -646,8 +646,8 @@ function filterSentences(type, btn) {
     document.querySelectorAll('.sentence-item').forEach(item => {
         const itemType = item.getAttribute('data-type');
         if (type === 'all') {
-    item.style.display = '';
-} else if (type === 'unique' && itemType === 'unique') {
+            item.style.display = '';
+        } else if (type === 'unique' && itemType === 'unique') {
             item.style.display = 'block';
         } else if (type === 'common' && itemType === 'common') {
             item.style.display = 'block';
@@ -655,7 +655,14 @@ function filterSentences(type, btn) {
             item.style.display = 'none';
         }
     });
+    
+    if (type === 'all') {
+        document.querySelectorAll('.sentences-container').forEach(container => {
+            container.classList.add('expanded');
+        });
+    }
 }
+
 
 
 </script>

@@ -274,6 +274,9 @@ body {
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     let allExpanded = false;
+    let uniqueExpanded = false;
+    let commonExpanded = false;
+  
     let selectedFiles = [];
     const maxFiles = 5;
     const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 МБ
@@ -689,25 +692,40 @@ function filterSentences(type, btn) {
         }
     });
 
-    // Логика сворачивания/раскрытия всех контейнеров
+    // Логика раскрытия/сворачивания для каждого типа
     if (type === 'all') {
         if (!allExpanded) {
-            document.querySelectorAll('.sentences-container').forEach(container => {
-                container.classList.add('expanded');
-            });
+            document.querySelectorAll('.sentences-container').forEach(c => c.classList.add('expanded'));
             allExpanded = true;
         } else {
-            document.querySelectorAll('.sentences-container').forEach(container => {
-                container.classList.remove('expanded');
-            });
+            document.querySelectorAll('.sentences-container').forEach(c => c.classList.remove('expanded'));
             allExpanded = false;
         }
-    } else {
-        // При других фильтрах всегда сворачиваем все
-        document.querySelectorAll('.sentences-container').forEach(container => {
-            container.classList.remove('expanded');
-        });
+        // сброс остальных флагов
+        uniqueExpanded = false;
+        commonExpanded = false;
+    } else if (type === 'unique') {
+        if (!uniqueExpanded) {
+            document.querySelectorAll('.sentences-container').forEach(c => c.classList.add('expanded'));
+            uniqueExpanded = true;
+        } else {
+            document.querySelectorAll('.sentences-container').forEach(c => c.classList.remove('expanded'));
+            uniqueExpanded = false;
+        }
+        // сброс остальных флагов
         allExpanded = false;
+        commonExpanded = false;
+    } else if (type === 'common') {
+        if (!commonExpanded) {
+            document.querySelectorAll('.sentences-container').forEach(c => c.classList.add('expanded'));
+            commonExpanded = true;
+        } else {
+            document.querySelectorAll('.sentences-container').forEach(c => c.classList.remove('expanded'));
+            commonExpanded = false;
+        }
+        // сброс остальных флагов
+        allExpanded = false;
+        uniqueExpanded = false;
     }
 }
 

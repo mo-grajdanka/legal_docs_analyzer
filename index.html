@@ -454,14 +454,14 @@ progressBarInner.style.width = overallProgress + '%';
                 
                 completedFiles++;
                 const overallProgress = Math.round((completedFiles / selectedFiles.length) * 100);
-                progressBar.style.width = overallProgress + '%';
+                progressBarInner.style.width = overallProgress + '%';
                 
                 // Небольшая пауза для обновления UI
                 await new Promise(resolve => setTimeout(resolve, 100));
             }
             
             progressText.textContent = 'Анализ завершен, формирование результатов...';
-            progressBar.style.width = '100%';
+            progressBarInner.style.width = '100%';
             
             // Подсчет общего и уникального текста
             const commonSentences = Array.from(sentenceToFiles.entries())

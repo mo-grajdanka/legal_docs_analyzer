@@ -114,11 +114,16 @@ body {
 }
 
 .stat-card {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: #fff;
-  padding: 25px;
-  border-radius: 15px;
-  text-align: center;
+  background: #fff; 
+  color: #2d2d2d;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(102, 126, 234, 0.09);
+  padding: 30px 18px 22px 18px;
+  text-align: left;
+  margin: 0 auto;
+  min-width: 220px;
+  max-width: 370px;
+  word-break: break-word;
 }
 
 .stat-card:nth-child(2) {
@@ -246,6 +251,12 @@ body {
     #fileInput {
   display: none;
 }
+
+
+    .stat-label.title { font-size: 1.01em; font-weight: 600; margin-bottom:8px;}
+.stat-label.common { color: #3b81f6; font-size: 1.0em; }
+.stat-label.unique { color: #ea375a; font-size: 1.0em; }
+.stat-message { color:#888; font-size:0.95em;margin-top:7px;}
   </style>
 </head>
 <body>
@@ -516,22 +527,39 @@ progressBarInner.style.width = overallProgress + '%';
             // Общая статистика
 html += '<div class="stats-grid">';
 documents.forEach(doc => {
+    // Найти с какими файлами есть пересечение
+    const otherFilesSet = new Set();
     const docCommon = doc.sentences.filter(s => sentenceToFiles.get(s).size > 1);
-    const docUnique = doc.sentences.filter(s => sentenceToFiles.get(s).size === 1);
+    docCommon.forEach(s => {
+        sentenceToFiles.get(s).forEach(fileName => {
+            if (fileName !== doc.name) otherFilesSet.add(fileName);
+        });
+    });
+    const otherFiles = Array.from(otherFilesSet);
 
     const total = doc.sentences.length;
     const percentCommon = total === 0 ? 0 : (docCommon.length / total * 100).toFixed(1);
-    const percentUnique = total === 0 ? 0 : (docUnique.length / total * 100).toFixed(1);
+    const percentUnique = total === 0 ? 0 : (doc.sentences.length - docCommon.length) / total * 100;
 
     html += `
         <div class="stat-card">
-            <div class="stat-label">${doc.name}</div>
-            <div class="stat-label" style="margin-top:12px;color:#667eea;">Общий текст: ${percentCommon}% (${docCommon.length} предложений)</div>
-            <div class="stat-label" style="margin-top:6px;color:#f5576c;">Уникальный текст: ${percentUnique}% (${docUnique.length} предложений)</div>
-            ${docCommon.length === 0 ? '<div style="color:#888;margin-top:8px;">Нет общих предложений для этого файла!</div>' : ''}
+            <div class="stat-label title">${doc.name}</div>
+            <div class="stat-label common">
+                Общий текст: <b>${percentCommon}%</b>
+                <span style="color:#888">(${docCommon.length} предложений)</span>
+            </div>
+            <div class="stat-label unique">
+                Уникальный текст: <b>${percentUnique.toFixed(1)}%</b>
+                <span style="color:#888">(${doc.sentences.length - docCommon.length} предложений)</span>
+            </div>
+            ${docCommon.length === 0 ? 
+              `<div class="stat-message">Нет общих предложений для этого файла!</div>` :
+              `<div class="stat-message">Общие предложения также есть в:<br>${otherFiles.map(f=>`<span style="color:#3b81f6">${f}</span>`).join(', ')}</div>`
+            }
         </div>
     `;
 });
+
 html += '</div>';
             
             // Фильтры

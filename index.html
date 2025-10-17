@@ -418,6 +418,7 @@ body {
             
             const progressText = document.getElementById('progressText');
             const progressBarInner = document.getElementById('progressBarInner');
+           const overallProgress = Math.round((completedFiles / selectedFiles.length) * 100);
 progressBarInner.style.width = overallProgress + '%';
             const fileProgress = document.getElementById('fileProgress');
             

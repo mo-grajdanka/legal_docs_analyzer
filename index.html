@@ -607,9 +607,9 @@ if (docCommon.length > 0) {
         progressText.textContent = '✅ Анализ успешно завершён!';
         progressBar.style.background = '#4caf50';
         setTimeout(() => {
-            
+            loader.classList.remove('active'); // добавьте ЭТУ строку!
             analyzeBtn.disabled = false;
-        }, 1500); // 1.5 сек — оптимально
+        }, 1500); // 1.5 сек — как хотите для анимации
     } else {
         loader.classList.remove('active');
         analyzeBtn.disabled = false;

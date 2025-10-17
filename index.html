@@ -536,7 +536,7 @@ progressBarInner.style.width = overallProgress + '%';
             
             // Общая статистика
 html += '<div class="stats-grid">';
-documents.forEach(doc => {
+documents.forEach((doc, index) => {
     // Найти с какими файлами есть пересечение
     const otherFilesSet = new Set();
     const docCommon = doc.sentences.filter(s => sentenceToFiles.get(s).size > 1);

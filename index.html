@@ -514,20 +514,25 @@ progressBarInner.style.width = overallProgress + '%';
             let html = '<h2 style="color: #667eea; margin-bottom: 20px;">📊 Результаты анализа</h2>';
             
             // Общая статистика
-            html += '<div class="stats-grid">';
-            html += `
-                <div class="stat-card">
-                    <div class="stat-label">Общий текст</div>
-                    <div class="stat-value">${(commonCount / allSentences.length * 100).toFixed(1)}%</div>
-                    <div class="stat-label">${commonCount} предложений</div>
-                </div>
-                <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                    <div class="stat-label">Уникальный текст</div>
-                    <div class="stat-value">${(uniqueCount / allSentences.length * 100).toFixed(1)}%</div>
-                    <div class="stat-label">${uniqueCount} предложений</div>
-                </div>
-            `;
-            html += '</div>';
+html += '<div class="stats-grid">';
+documents.forEach(doc => {
+    const docCommon = doc.sentences.filter(s => sentenceToFiles.get(s).size > 1);
+    const docUnique = doc.sentences.filter(s => sentenceToFiles.get(s).size === 1);
+
+    const total = doc.sentences.length;
+    const percentCommon = total === 0 ? 0 : (docCommon.length / total * 100).toFixed(1);
+    const percentUnique = total === 0 ? 0 : (docUnique.length / total * 100).toFixed(1);
+
+    html += `
+        <div class="stat-card">
+            <div class="stat-label">${doc.name}</div>
+            <div class="stat-label" style="margin-top:12px;color:#667eea;">Общий текст: ${percentCommon}% (${docCommon.length} предложений)</div>
+            <div class="stat-label" style="margin-top:6px;color:#f5576c;">Уникальный текст: ${percentUnique}% (${docUnique.length} предложений)</div>
+            ${docCommon.length === 0 ? '<div style="color:#888;margin-top:8px;">Нет общих предложений для этого файла!</div>' : ''}
+        </div>
+    `;
+});
+html += '</div>';
             
             // Фильтры
             html += '<div class="filter-buttons">';

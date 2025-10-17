@@ -418,11 +418,12 @@ body {
             
             const progressText = document.getElementById('progressText');
             const progressBarInner = document.getElementById('progressBarInner');
+          let completedFiles = 0;
            const overallProgress = Math.round((completedFiles / selectedFiles.length) * 100);
 progressBarInner.style.width = overallProgress + '%';
             const fileProgress = document.getElementById('fileProgress');
             
-            let completedFiles = 0;
+            
             
             // Callback для обновления прогресса
             function updateProgress(fileName, percent) {

@@ -595,21 +595,19 @@ if (docCommon.length > 0) {
                 }
             }
             
-            html += '</div>';
-            
-            results.innerHTML = html;
-            
-        } catch (error) {
+    results.innerHTML = html;
+    progressText.textContent = '✅ Анализ успешно завершён!';
+    progressBar.style.background = '#4caf50';
+} catch (error) {
     results.innerHTML = `<div style="color: red; padding: 20px;">Ошибка: ${error.message}</div>`;
     console.error('Полная ошибка:', error);
-} finally {
+}
+finally {
     if (!results.innerHTML.includes('color: red')) {
-        progressText.textContent = '✅ Анализ успешно завершён!';
-        progressBar.style.background = '#4caf50';
         setTimeout(() => {
-            loader.classList.remove('active'); // добавьте ЭТУ строку!
+            loader.classList.remove('active');
             analyzeBtn.disabled = false;
-        }, 1500); // 1.5 сек — как хотите для анимации
+        }, 1500);
     } else {
         loader.classList.remove('active');
         analyzeBtn.disabled = false;

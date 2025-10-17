@@ -257,6 +257,16 @@ body {
 .stat-label.common { color: #3b81f6; font-size: 1.0em; }
 .stat-label.unique { color: #ea375a; font-size: 1.0em; }
 .stat-message { color:#888; font-size:0.95em;margin-top:7px;}
+
+.stat-card.clickable {
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.stat-card.clickable:hover {
+  box-shadow: 0 4px 24px rgba(60,130,246,0.14);
+  background: #f2f6ff;
+}
+    
   </style>
 </head>
 <body>
@@ -542,7 +552,7 @@ documents.forEach(doc => {
     const percentUnique = total === 0 ? 0 : (doc.sentences.length - docCommon.length) / total * 100;
 
     html += `
-        <div class="stat-card">
+        <div class="stat-card clickable" onclick="toggleSentences(${index})">
             <div class="stat-label title">${doc.name}</div>
             <div class="stat-label common">
                 Общий текст: <b>${percentCommon}%</b>

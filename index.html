@@ -241,6 +241,9 @@ body {
     <button class="analyze-btn" id="analyzeBtn" disabled>🔍 Анализировать документы</button>
     <div id="progressText" style="margin-top:20px; color:#667eea; min-height:1.5em;"></div>
 <div id="fileProgress" style="margin-top: 3px; color: #888; font-size: 14px;"></div>
+<div id="progressBar" style="background:#e0e0e0;border-radius:10px;height:20px;width:100%;margin-top:10px;overflow:hidden;">
+  <div id="progressBarInner" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);height:100%;width:0%;transition:width .3s;"></div>
+</div>
 
     <div class="results" id="results"></div>
   </div>
@@ -414,7 +417,8 @@ body {
             const sentenceToFiles = new Map();
             
             const progressText = document.getElementById('progressText');
-            const progressBar = document.getElementById('progressBar');
+            const progressBarInner = document.getElementById('progressBarInner');
+progressBarInner.style.width = overallProgress + '%';
             const fileProgress = document.getElementById('fileProgress');
             
             let completedFiles = 0;

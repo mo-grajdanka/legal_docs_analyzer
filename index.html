@@ -504,7 +504,8 @@ html += '<button class="filter-btn" onclick="filterSentences(&quot;common&quot;,
             
             // Детальные различия по каждому файлу
             html += '<div class="differences-section">';
-            html += '<h3 style="color: #667eea; margin-bottom: 20px;">📝 Детальные различия (показаны первые 20)</h3>';
+            html += '<h3 style="color: #667eea; margin-bottom: 20px;">📝 Детальные различия</h3>';
+
             
             documents.forEach((doc, index) => {
                 const docCommon = doc.sentences.filter(s => 
@@ -526,7 +527,7 @@ html += '<button class="filter-btn" onclick="filterSentences(&quot;common&quot;,
                         </h4>
                         
                         <div class="sentences-container" id="sentences-${index}">
-                            <h5 style="color: #4caf50; margin-top: 15px;">✅ Уникальные предложения (показаны первые 20):</h5>
+                            <h5 style="color: #4caf50; margin-top: 15px;">✅ Уникальные предложения (${docUnique.length}):</h5>
                 `;
                 
 if (docUnique.length > 0) {
@@ -538,10 +539,9 @@ if (docUnique.length > 0) {
 }
 
                 
-                html += '<h5 style="color: #ff9800; margin-top: 20px;">🔄 Общие предложения (показаны первые 20):</h5>';
-                
-                if (docCommon.length > 0) {
-                    docCommon.forEach(sent => {
+if (docCommon.length > 0) {
+    html += `<h5 style="color: #ff9800; margin-top: 20px;">🔄 Общие предложения (${docCommon.length}):</h5>`;
+    docCommon.forEach(sent => {
                         const files = Array.from(sentenceToFiles.get(sent));
                         const otherFiles = files.filter(f => f !== doc.name).join(', ');
                         html += `
@@ -607,7 +607,7 @@ if (docUnique.length > 0) {
         progressText.textContent = '✅ Анализ успешно завершён!';
         progressBar.style.background = '#4caf50';
         setTimeout(() => {
-            loader.classList.remove('active');
+            
             analyzeBtn.disabled = false;
         }, 1500); // 1.5 сек — оптимально
     } else {
@@ -643,8 +643,8 @@ function filterSentences(type, btn) {
     document.querySelectorAll('.sentence-item').forEach(item => {
         const itemType = item.getAttribute('data-type');
         if (type === 'all') {
-            item.style.display = 'block';
-        } else if (type === 'unique' && itemType === 'unique') {
+    item.style.display = '';
+} else if (type === 'unique' && itemType === 'unique') {
             item.style.display = 'block';
         } else if (type === 'common' && itemType === 'common') {
             item.style.display = 'block';

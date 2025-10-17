@@ -495,9 +495,9 @@ body {
             
             // Фильтры
             html += '<div class="filter-buttons">';
-            html += '<button class="filter-btn active" onclick="filterSentences(\'all\')">Все</button>';
-            html += '<button class="filter-btn" onclick="filterSentences(\'unique\')">Только уникальные</button>';
-            html += '<button class="filter-btn" onclick="filterSentences(\'common\')">Только общие</button>';
+            html += '<button class="filter-btn active" onclick="filterSentences('all', this)">Все</button>';
+            html += '<button class="filter-btn" onclick="filterSentences('unique', this)">Только уникальные</button>';
+            html += '<button class="filter-btn" onclick="filterSentences('common', this)">Только общие</button>';
             html += '</div>';
             
             // Детальные различия по каждому файлу
@@ -632,26 +632,29 @@ if (docUnique.length > 0) {
     }
     
     // Функция фильтрации предложений 
-    function filterSentences(type) {
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
-        
-        document.querySelectorAll('.sentence-item').forEach(item => {
-            const itemType = item.getAttribute('data-type');
-            
-            if (type === 'all') {
-                item.style.display = 'block';
-            } else if (type === 'unique' && itemType === 'unique') {
-                item.style.display = 'block';
-            } else if (type === 'common' && itemType === 'common') {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
+function filterSentences(type, btn) {
+    // Снимаем active со всех кнопок
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('active');
+    });
+    // Делаем активной только выбранную
+    btn.classList.add('active');
+    // Фильтруем предложения по типу
+    document.querySelectorAll('.sentence-item').forEach(item => {
+        const itemType = item.getAttribute('data-type');
+        if (type === 'all') {
+            item.style.display = 'block';
+        } else if (type === 'unique' && itemType === 'unique') {
+            item.style.display = 'block';
+        } else if (type === 'common' && itemType === 'common') {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+
 </script>
 </body>
 </html>

@@ -114,7 +114,7 @@ body {
 }
 
 .stat-card {
-  background: #fff; 
+  background: #fff !important;
   color: #2d2d2d;
   border-radius: 14px;
   box-shadow: 0 2px 16px rgba(102, 126, 234, 0.09);
@@ -226,20 +226,7 @@ body {
 .similarity-medium { background: #ffa502; color: #fff; }
 .similarity-low { background: #2ed573; color: #fff; }
 
-.custom-file-label {
-  display: inline-block;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: #fff;
-  padding: 15px 40px;
-  border-radius: 10px;
-  font-size: 1.1em;
-  font-family: inherit;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  border: none;
-  text-align: center;
-}
+
     
 .custom-file-label:hover {
   box-shadow: 0 4px 16px rgba(118,75,162,0.09);
@@ -263,6 +250,57 @@ body {
   box-shadow: 0 4px 24px rgba(60,130,246,0.14);
   background: #f2f6ff;
 }
+
+
+    .custom-file-label {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 15px 40px;
+  border-radius: 12px;
+  font-size: 1.1em;
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  position: relative;
+  transition: 
+    box-shadow 0.23s cubic-bezier(.4, 2.3, .3, 1), 
+    transform 0.16s cubic-bezier(.33,1.44,.7,1.02),
+    background 0.18s;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.custom-file-label:hover, .custom-file-label:focus {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  box-shadow: 0 0 16px 4px #a5b7fa99, 0 2px 6px #764ba222;
+  transform: translateY(-2px) scale(1.035);
+}
+
+.custom-file-label:active {
+  box-shadow: 0 0 20px 8px #a5b7fa77;
+  transform: translateY(1px) scale(0.96);
+}
+
+    .custom-file-label .ripple {
+  position: absolute;
+  border-radius: 70%;
+  pointer-events: none;
+  width: 120px;
+  height: 120px;
+  margin-left: -60px;
+  margin-top: -60px;
+  background: radial-gradient(circle, #d2dbfe77 40%, transparent 67%);
+  transform: scale(0);
+  animation: ripple-animate 0.6s linear forwards;
+  z-index: 2;
+}
+@keyframes ripple-animate {
+  to {transform: scale(2); opacity: 0;}
+}
+
+
     
   </style>
 </head>
@@ -715,6 +753,23 @@ function toggleSentences(index) {
         }
     }
 }
+
+  document.querySelectorAll('.custom-file-label').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    // Удалить старую ripple если есть
+    let oldRipple = btn.querySelector('.ripple');
+    if (oldRipple) oldRipple.remove();
+    // Создать новую ripple
+    let ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    // Позиция нажатия
+    let rect = btn.getBoundingClientRect();
+    ripple.style.left = (e.clientX - rect.left) + 'px';
+    ripple.style.top = (e.clientY - rect.top) + 'px';
+    btn.appendChild(ripple);
+    setTimeout(()=>{ripple.remove()}, 600);
+  });
+});
     
     // Функция фильтрации предложений 
 function filterSentences(type, btn) {

@@ -342,11 +342,22 @@ body {
         });
     }
     
-    function removeFile(index) {
-        selectedFiles.splice(index, 1);
-        updateFileList();
-        analyzeBtn.disabled = selectedFiles.length < 2;
+function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    updateFileList();
+    analyzeBtn.disabled = selectedFiles.length < 2;
+
+    // Автоматический повторный анализ, если осталось 2+ файла
+    if (selectedFiles.length >= 2) {
+        analyzeBtn.click();
+    } else {
+        // Если файлов меньше 2, очищаем результаты
+        results.innerHTML = '';
+        progressText.innerHTML = '';
+        progressBarInner.style.width = '0%';
+        fileProgress.innerHTML = '';
     }
+}
     
     // ОПТИМИЗИРОВАННОЕ извлечение текста с постраничной обработкой
     async function extractTextFromPDFOptimized(file, progressCallback) {

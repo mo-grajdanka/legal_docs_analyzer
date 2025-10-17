@@ -600,7 +600,8 @@ if (docCommon.length > 0) {
                 }
             }
             
-    results.innerHTML = html + `<div style="color: #4caf50; margin-top:20px; font-size:1.1em;">✅ Анализ успешно завершён!</div>`;
+    results.innerHTML = html;
+    progressText.innerHTML = '<span style="color:#4caf50;font-weight:600;">✅ Анализ успешно завершён!</span>';
 
 } catch (error) {
     results.innerHTML = `<div style="color: red; padding: 20px;">Ошибка: ${error.message}</div>`;

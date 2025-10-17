@@ -126,9 +126,6 @@ body {
   word-break: break-word;
 }
 
-.stat-card:nth-child(2) {
-  background: linear-gradient(135deg, #f093fb, #f5576c);
-}
 
 .filter-buttons {
   margin: 20px 0 10px 0;
@@ -700,18 +697,24 @@ finally {
     });
     
     // Функция раскрытия/скрытия предложений 
-    function toggleSentences(index) {
-        const container = document.getElementById(`sentences-${index}`);
-        const icon = document.getElementById(`toggle-${index}`);
-        
-        if (container.classList.contains('expanded')) {
-            container.classList.remove('expanded');
-            icon.classList.remove('expanded');
-        } else {
-            container.classList.add('expanded');
-            icon.classList.add('expanded');
+function toggleSentences(index) {
+    const container = document.getElementById(`sentences-${index}`);
+    const icon = document.getElementById(`toggle-${index}`);
+    const differencesBlock = container.closest('.file-differences');
+    if (container.classList.contains('expanded')) {
+        container.classList.remove('expanded');
+        icon.classList.remove('expanded');
+    } else {
+        container.classList.add('expanded');
+        icon.classList.add('expanded');
+        // Автоскролл к блоку
+        if (differencesBlock) {
+            setTimeout(() => { // после раскрытия анимации
+                differencesBlock.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 100);
         }
     }
+}
     
     // Функция фильтрации предложений 
 function filterSentences(type, btn) {

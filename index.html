@@ -598,7 +598,7 @@ body {
             html += '</div>';
             
             results.innerHTML = html;
-            
+            loader.classList.remove('active');
         } catch (error) {
     results.innerHTML = `<div style="color: red; padding: 20px;">Ошибка: ${error.message}</div>`;
     console.error('Полная ошибка:', error);

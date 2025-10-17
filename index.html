@@ -239,7 +239,7 @@ body {
     </div>
     <div class="file-list" id="fileList"></div>
     <button class="analyze-btn" id="analyzeBtn" disabled>🔍 Анализировать документы</button>
-    <div class="loader" id="loader"></div>
+
     <div class="results" id="results"></div>
   </div>
 
@@ -401,16 +401,8 @@ body {
     
     // Основной анализ с прогресс-баром
     analyzeBtn.addEventListener('click', async () => {
-        loader.innerHTML = `
-            <div class="spinner"></div>
-            <p style="margin-top: 15px; color: #667eea;" id="progressText">Подготовка к анализу...</p>
-            <div style="background: #e0e0e0; border-radius: 10px; height: 20px; margin-top: 10px; overflow: hidden;">
-                <div id="progressBar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; width: 0%; transition: width 0.3s;"></div>
-            </div>
-            <div id="fileProgress" style="margin-top: 10px; font-size: 0.9em; color: #666;"></div>
-        `;
-        
-        loader.classList.add('active');
+
+
         results.innerHTML = '';
         analyzeBtn.disabled = true;
         
@@ -605,11 +597,11 @@ if (docCommon.length > 0) {
 finally {
     if (!results.innerHTML.includes('color: red')) {
         setTimeout(() => {
-            loader.classList.remove('active');
+            
             analyzeBtn.disabled = false;
         }, 1500);
     } else {
-        loader.classList.remove('active');
+        
         analyzeBtn.disabled = false;
     }
 }

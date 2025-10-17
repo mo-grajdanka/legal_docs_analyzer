@@ -495,9 +495,11 @@ body {
             
             // Фильтры
             html += '<div class="filter-buttons">';
-            html += '<button class="filter-btn active" onclick="filterSentences('all', this)">Все</button>';
-            html += '<button class="filter-btn" onclick="filterSentences('unique', this)">Только уникальные</button>';
-            html += '<button class="filter-btn" onclick="filterSentences('common', this)">Только общие</button>';
+html += '<button class="filter-btn active" onclick="filterSentences(&quot;all&quot;, this)">Все</button>';
+html += '<button class="filter-btn" onclick="filterSentences(&quot;unique&quot;, this)">Только уникальные</button>';
+html += '<button class="filter-btn" onclick="filterSentences(&quot;common&quot;, this)">Только общие</button>';
+
+
             html += '</div>';
             
             // Детальные различия по каждому файлу

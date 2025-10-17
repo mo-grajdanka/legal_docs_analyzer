@@ -600,12 +600,23 @@ body {
             results.innerHTML = html;
             
         } catch (error) {
-            results.innerHTML = `<div style="color: red; padding: 20px;">Ошибка: ${error.message}</div>`;
-            console.error('Полная ошибка:', error);
-        } finally {
+    results.innerHTML = `<div style="color: red; padding: 20px;">Ошибка: ${error.message}</div>`;
+    console.error('Полная ошибка:', error);
+} finally {
+    // Показываем успешное завершение на 2 секунды
+    if (!results.innerHTML.includes('color: red')) { // если нет ошибки
+        progressText.textContent = '✅ Анализ успешно завершён!';
+        progressBar.style.background = '#4caf50'; // зелёный цвет
+        
+        setTimeout(() => {
             loader.classList.remove('active');
             analyzeBtn.disabled = false;
-        }
+        }, 2000); // 2 секунды показа успеха
+    } else {
+        loader.classList.remove('active');
+        analyzeBtn.disabled = false;
+    }
+}
     });
     
     // Функция раскрытия/скрытия предложений 
